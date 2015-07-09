@@ -20,12 +20,13 @@ using JetBrains.Application.DataContext;
 using JetBrains.Application.Interop.NativeHook;
 using JetBrains.DataFlow;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Features.Common.UI;
-using JetBrains.ReSharper.Features.Shared.UnitTesting;
+using JetBrains.ReSharper.Feature.Services.UI.CompletionPicker;
+using JetBrains.ReSharper.Feature.Services.UnitTesting;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.UnitTestExplorer;
+using JetBrains.ReSharper.UnitTestExplorer.Common;
 using JetBrains.ReSharper.UnitTestFramework.Resources;
 using JetBrains.Text;
+using JetBrains.UI.ActionsRevised;
 using JetBrains.UI.Application;
 using JetBrains.UI.GotoByName;
 using JetBrains.UI.PopupMenu;
@@ -39,8 +40,9 @@ using DataConstants = JetBrains.ProjectModel.DataContext.DataConstants;
 
 namespace ReSharper.Plugins.TestTools.Actions
 {
-  [ActionHandler("TestToolsPlugin.TagTest")]
-  public class TagTestAction : IActionHandler
+  //[ActionHandler("TestToolsPlugin.TagTest")]
+  [ActionHandler(typeof(TagTestAction))]
+  public class TagTestAction : IExecutableAction
   {
     public bool Update(IDataContext context, ActionPresentation presentation, DelegateUpdate nextUpdate)
     {

@@ -14,7 +14,7 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 using JetBrains.ActionManagement;
-using JetBrains.Application.PluginSupport;
+//using JetBrains.Application.PluginSupport;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -25,9 +25,11 @@ using JetBrains.Application.PluginSupport;
 [assembly: AssemblyFileVersion("0.1.0.0")]
 [assembly: ComVisible(false)]
 
-[assembly: ActionsXml("CreateTestPlugin.Actions.xml")]
+//[assembly: ActionsXml("CreateTestPlugin.Actions.xml")]
 
 // The following information is displayed by ReSharper in the Plugins dialog
+/*
 [assembly: PluginTitle("Test Tools Plugin")]
 [assembly: PluginDescription("Provides number of useful test-related functions")]
 [assembly: PluginVendor("Victor Kropp, JetBrains s.r.o.")]
+*/

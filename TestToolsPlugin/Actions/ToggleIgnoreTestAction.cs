@@ -17,16 +17,18 @@ using JetBrains.ActionManagement;
 using JetBrains.Application.DataContext;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
-using JetBrains.ReSharper.UnitTestExplorer;
+using JetBrains.ReSharper.UnitTestExplorer.Common;
 using JetBrains.ReSharper.UnitTestFramework;
+using JetBrains.UI.ActionsRevised;
 using JetBrains.Util;
 using ReSharper.Plugins.TestTools.Util;
 using DataConstants = JetBrains.ProjectModel.DataContext.DataConstants;
 
 namespace ReSharper.Plugins.TestTools.Actions
 {
-  [ActionHandler("TestToolsPlugin.ToggleIgnoreTest")]
-  public class ToggleIgnoreTestAction : IActionHandler
+  //[ActionHandler("TestToolsPlugin.ToggleIgnoreTest")]
+  [ActionHandler(typeof(ToggleIgnoreTestAction))]
+  public class ToggleIgnoreTestAction : IExecutableAction
   {
     public bool Update(IDataContext context, ActionPresentation presentation, DelegateUpdate nextUpdate)
     {

@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
+using JetBrains.PsiFeatures.VisualStudio.Core.UnitTesting;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.TaskRunnerFramework;
 using JetBrains.ReSharper.UnitTestExplorer.Manager;
@@ -26,11 +28,11 @@ namespace ReSharper.Plugins.TestTools.MethodRunner
   {
     private readonly IUnitTestRunStrategy myStrategy = new OutOfProcessUnitTestRunStrategy(new RemoteTaskRunnerInfo(Id, typeof(RunMethodRunner)));
 
-    public void ExploreExternal(UnitTestElementConsumer consumer)
+    public void ExploreExternal(IUnitTestElementsObserver consumer)
     {
     }
 
-    public void ExploreSolution(ISolution solution, UnitTestElementConsumer consumer)
+    public void ExploreSolution(ISolution solution, IUnitTestElementsObserver consumer)
     {
     }
 

@@ -13,6 +13,7 @@
 // limitations under the License.
 
 using System.Collections.Generic;
+using JetBrains.Metadata.Reader.API;
 using JetBrains.ProjectModel;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.UnitTestFramework;
@@ -51,9 +52,14 @@ namespace ReSharper.Plugins.TestTools.MethodRunner
       return myMethodName + "()";
     }
 
+      public string GetPresentation(IUnitTestElement parent = null, bool full = false)
+      {
+          throw new System.NotImplementedException();
+      }
+
     public UnitTestNamespace GetNamespace()
     {
-      return new UnitTestNamespace(myClassName.GetNamespaceName());
+      return new UnitTestNamespace(new [] { myClassName.GetNamespaceName() } );
     }
 
     public UnitTestElementDisposition GetDisposition()
@@ -76,7 +82,14 @@ namespace ReSharper.Plugins.TestTools.MethodRunner
       return myProvider.Strategy;
     }
 
-    public IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
+      public IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestRun run)
+      {
+          throw new System.NotImplementedException();
+      }
+
+      //UnitTestElementId Id { get; set; }
+
+      public IList<UnitTestTask> GetTaskSequence(ICollection<IUnitTestElement> explicitElements, IUnitTestLaunch launch)
     {
       return new List<UnitTestTask> { new UnitTestTask(this, new RunMethodTask(MethodRunnerProvider.Id, ((IProject)myProjectEnvoy.GetValidProjectElement()).GetOutputFilePath().FullPath, myClassName.FullName, myMethodName, myIsClassStatic, myIsMethodStatic)) };
     }
@@ -84,9 +97,14 @@ namespace ReSharper.Plugins.TestTools.MethodRunner
     public string Kind { get { return "Method"; } }
     public IEnumerable<UnitTestElementCategory> Categories { get { return UnitTestElementCategory.Uncategorized; } }
     public string ExplicitReason { get { return null; } }
-    public string Id { get { return MethodRunnerProvider.Id; } }
 
-    public IUnitTestProvider Provider { get { return myProvider; } }
+      public UnitTestElementId Id
+      {
+          get { return null; // MethodRunnerProvider.Id; 
+          }
+      }
+
+      public IUnitTestProvider Provider { get { return myProvider; } }
 
     public IUnitTestElement Parent { get { return null; } set {} }
 

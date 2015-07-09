@@ -17,11 +17,10 @@ using System.Linq;
 using System.Reflection;
 using JetBrains.Application.Progress;
 using JetBrains.DataFlow;
+using JetBrains.Metadata.Reader.Impl;
 using JetBrains.ProjectModel;
-using JetBrains.ProjectModel.Resources;
-using JetBrains.ReSharper.Feature.Services.Bulbs;
-using JetBrains.ReSharper.Feature.Services.CSharp.Bulbs;
-using JetBrains.ReSharper.Intentions.Extensibility;
+using JetBrains.ReSharper.Feature.Services.ContextActions;
+using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.UnitTestFramework;
@@ -55,7 +54,7 @@ namespace ReSharper.Plugins.TestTools.MethodRunner
 
       var sessionView = unitTestSessionManager.GetSession(SessionID) ?? unitTestSessionManager.CreateSession(id: SessionID);
       sessionView.Title.Value = "Run Method " + myMethodDeclaration.DeclaredName;
-      sessionView.Session.AddElement(element);
+      sessionView.Session.AddElements(new [] { element} );
 
       var launchLifetime = Lifetimes.Define(solution.GetLifetime(), "MethodRunner");
       launchLifetime.Lifetime.AddAction(() =>
@@ -68,13 +67,13 @@ namespace ReSharper.Plugins.TestTools.MethodRunner
 
       EventHandler<UnitTestResultEventArgs> onUnitTestResultUpdated = (sender, args) =>
       {
-        if (args.Element == element && args.Result.RunStatus == UnitTestRunStatus.Completed)
+        if (args.Element == element && args.Result.RunStatus == UnitTestRunStatus.Idle)
         {
           var exceptions = string.Empty;
-          var resultData = unitTestResultManager.GetResultData(args.Element);
+          var resultData = unitTestResultManager.GetResultData(args.Element, sessionView.Session);
           if (resultData.Exceptions.Any())
             exceptions = resultData.Exceptions.First().StackTrace;
-          MessageBox.ShowInfo(args.Result.Message + " " + resultData.Output + " " + exceptions);
+          MessageBox.ShowInfo(args.Result.ShortMessage + " " + resultData.Output + " " + exceptions);
           
           // cleanup
           launchLifetime.Terminate();

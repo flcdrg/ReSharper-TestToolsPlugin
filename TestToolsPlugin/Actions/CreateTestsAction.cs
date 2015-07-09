@@ -14,19 +14,18 @@
 
 using System;
 using System.Text;
-using JetBrains.Application;
 using JetBrains.Application.Progress;
 using JetBrains.ProjectModel;
-using JetBrains.ReSharper.Feature.Services.Bulbs;
-using JetBrains.ReSharper.Feature.Services.CSharp.Bulbs;
-using JetBrains.ReSharper.Intentions.Extensibility;
+using JetBrains.ReSharper.Feature.Services.ContextActions;
+using JetBrains.ReSharper.Feature.Services.CSharp.Analyses.Bulbs;
+using JetBrains.ReSharper.Feature.Services.Util;
 using JetBrains.ReSharper.Psi;
 using JetBrains.ReSharper.Psi.CSharp;
 using JetBrains.ReSharper.Psi.CSharp.Tree;
 using JetBrains.ReSharper.Psi.ExtensionsAPI.Tree;
 using JetBrains.ReSharper.Psi.Modules;
-using JetBrains.ReSharper.Psi.Services;
 using JetBrains.ReSharper.Psi.Tree;
+using JetBrains.ReSharper.Resources.Shell;
 using JetBrains.TextControl;
 using JetBrains.Util;
 
@@ -138,7 +137,7 @@ namespace ReSharper.Plugins.TestTools.Actions
       foreach (var parameterDeclaration in originalMethod.Parameters)
       {
         var type = parameterDeclaration.Type;
-        var stmt = factory.CreateStatement("$0 " + parameterDeclaration.ShortName + " = $1;", type, DefaultValueUtil.GetDefaultValue(type, testMethod.Language, psiModule));
+        var stmt = factory.CreateStatement("$0 " + parameterDeclaration.ShortName + " = $1;", type, DefaultValueUtil.GetDefaultValue(type, testMethod.Language, testMethod));
         anchorStatement = testMethod.Body.AddStatementAfter(stmt, anchorStatement);
 
         if (paramsList.Length == 0) // First parameter
@@ -151,7 +150,7 @@ namespace ReSharper.Plugins.TestTools.Actions
       if (!originalMethod.ReturnType.IsVoid())
       {
         var stmt = factory.CreateStatement("$0 expected = $1;", originalMethod.ReturnType,
-          DefaultValueUtil.GetDefaultValue(originalMethod.ReturnType, testMethod.Language, psiModule));
+          DefaultValueUtil.GetDefaultValue(originalMethod.ReturnType, testMethod.Language, testMethod));
         anchorStatement = testMethod.Body.AddStatementAfter(stmt, anchorStatement);
 
         if (originalMethod.Parameters.IsEmpty())
